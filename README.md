@@ -16,8 +16,14 @@ As developers and UW students ourselves, we have personally experienced the frus
 # API Endpoints
 ## Courses:
 GET /courses
+
+
 Returns all courses.
+
+
 GET /courses/:id
+
+
 Returns detailed course information.
 POST /courses
 (Admin use) Adds a new course.
