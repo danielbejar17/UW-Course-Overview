@@ -24,6 +24,42 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// ── Tab switching ─────────────────────────────────────────────────────────────
+
+function showTab(name) {
+  const isReviews = name === 'reviews';
+  document.getElementById('reviewsPanel').style.display  = isReviews ? '' : 'none';
+  document.getElementById('threadsPanel').style.display  = isReviews ? 'none' : '';
+  document.getElementById('tab-reviews').classList.toggle('active', isReviews);
+  document.getElementById('tab-threads').classList.toggle('active', !isReviews);
+  document.getElementById('linkAddReview').style.display   = isReviews ? '' : 'none';
+  document.getElementById('linkStartThread').style.display = isReviews ? 'none' : '';
+}
+
+// ── Bottom-form toggle ────────────────────────────────────────────────────────
+
+function toggleBottomForm(panelId) {
+  const panel   = document.getElementById(panelId);
+  const body    = panel.querySelector('.form-toggle-body');
+  const chevron = panel.querySelector('.form-toggle-chevron');
+  const isOpen  = body.style.display !== 'none';
+  body.style.display    = isOpen ? 'none' : 'block';
+  chevron.textContent   = isOpen ? '▼' : '▲';
+}
+
+// Called by the "Add a Review" / "Start a Thread" action links at the top.
+// Opens the form if collapsed and scrolls it into view.
+function expandBottomForm(panelId) {
+  const panel   = document.getElementById(panelId);
+  const body    = panel.querySelector('.form-toggle-body');
+  const chevron = panel.querySelector('.form-toggle-chevron');
+  body.style.display  = 'block';
+  chevron.textContent = '▲';
+  panel.querySelector('.panel-bottom-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const first = body.querySelector('input, textarea');
+  if (first) first.focus();
+}
+
 // ── Load course info ──────────────────────────────────────────────────────────
 
 async function loadCourse() {
@@ -75,24 +111,27 @@ async function loadReviews() {
     if (!res.ok) throw new Error(`${res.status}`);
     const reviews = await res.json();
 
+    const badge = document.getElementById('badgeReviews');
+    if (badge) badge.textContent = reviews.length || '';
+
     reviewStatus.textContent = '';
 
     if (reviews.length === 0) {
-      reviewsList.innerHTML = '<p>No reviews yet for this course.</p>';
+      reviewsList.innerHTML = '<p class="panel-empty">No reviews yet for this course.</p>';
       return;
     }
 
     reviewsList.innerHTML = '<ul>' + reviews.map((r) => `
       <li>
         <p>
-          <strong>@${r.userID || 'Anonymous'}</strong> &mdash; ${fmt(r.createdAt)}
+          <strong>@${escHtml(r.userID || 'Anonymous')}</strong> &mdash; ${fmt(r.createdAt)}
         </p>
         <p>
           Overall: ${stars(r.overallRating)} ${r.overallRating}/5 &nbsp;|&nbsp;
           Difficulty: ${r.difficultyRating}/5 &nbsp;|&nbsp;
           Workload: ${r.workloadRating}/5
         </p>
-        <p>${r.reviewText}</p>
+        <p>${escHtml(r.reviewText)}</p>
       </li>
     `).join('') + '</ul>';
 
@@ -106,7 +145,6 @@ async function loadReviews() {
 
 async function submitReview(event) {
   event.preventDefault();
-
   if (!courseId) return;
 
   const status = document.getElementById('reviewFormStatus');
@@ -126,9 +164,7 @@ async function submitReview(event) {
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(body),
     });
-
     if (!res.ok) throw new Error(`${res.status}`);
-
     status.textContent = 'Review submitted!';
     document.getElementById('reviewForm').reset();
     await loadReviews();
@@ -140,7 +176,7 @@ async function submitReview(event) {
 
 // ── Threads ───────────────────────────────────────────────────────────────────
 
-let threads = []; // cached list so we can access title/body when expanding
+let threads = [];
 
 async function loadThreads() {
   if (!courseId) return;
@@ -153,8 +189,11 @@ async function loadThreads() {
     if (!res.ok) throw new Error(`${res.status}`);
     threads = await res.json();
 
+    const badge = document.getElementById('badgeThreads');
+    if (badge) badge.textContent = threads.length || '';
+
     if (threads.length === 0) {
-      listEl.innerHTML = '<p class="threads-empty">No threads yet — start one below!</p>';
+      listEl.innerHTML = '<p class="panel-empty">No threads yet &mdash; start one below!</p>';
       return;
     }
 
@@ -181,7 +220,6 @@ async function toggleThread(threadId) {
   const bodyEl = document.getElementById(`thread-body-${threadId}`);
   if (!bodyEl) return;
 
-  // Collapse if already open
   if (bodyEl.style.display !== 'none') {
     bodyEl.style.display = 'none';
     return;
@@ -201,18 +239,11 @@ async function toggleThread(threadId) {
     bodyEl.innerHTML = `
       <div class="thread-op">
         <p class="thread-op-text">${escHtml(thread ? thread.body : '')}</p>
+        <button class="reply-btn" onclick="showReplyForm('${threadId}', 'top-${threadId}', null)">Reply</button>
+        <div class="reply-form-slot" id="reply-slot-top-${threadId}"></div>
       </div>
       <div class="comments-section">
         ${tree || '<p class="threads-empty">No comments yet.</p>'}
-      </div>
-      <div class="inline-comment-form" id="icf-${threadId}">
-        <h4>Add a Comment</h4>
-        <input type="text" id="icf-name-${threadId}" placeholder="Name (optional)" />
-        <textarea id="icf-text-${threadId}" rows="3" placeholder="Write a comment&hellip;"></textarea>
-        <div class="icf-actions">
-          <button onclick="submitComment('${threadId}', null)">Comment</button>
-          <span id="icf-status-${threadId}" class="icf-status"></span>
-        </div>
       </div>
     `;
   } catch (err) {
@@ -221,9 +252,10 @@ async function toggleThread(threadId) {
   }
 }
 
-// Recursively build nested comment HTML (Reddit-style indentation)
+// Recursively build nested comment HTML (Reddit-style indentation).
+// slotKey === c._id so slot IDs and input IDs are always unique.
 function buildCommentTree(comments, parentId, depth) {
-  if (depth > 8) return ''; // cap nesting depth
+  if (depth > 8) return '';
   const children = comments.filter((c) =>
     parentId === null ? !c.parentCommentID : c.parentCommentID === parentId
   );
@@ -235,15 +267,17 @@ function buildCommentTree(comments, parentId, depth) {
         <strong>@${escHtml(c.userID || 'Anonymous')}</strong> &middot; ${fmt(c.createdAt)}
       </p>
       <p class="comment-text">${escHtml(c.content || '')}</p>
-      <button class="reply-btn" onclick="showReplyForm('${c.threadID}', '${c._id}')">Reply</button>
+      <button class="reply-btn" onclick="showReplyForm('${c.threadID}', '${c._id}', '${c._id}')">Reply</button>
       <div class="reply-form-slot" id="reply-slot-${c._id}"></div>
       ${buildCommentTree(comments, c._id, depth + 1)}
     </div>
   `).join('');
 }
 
-function showReplyForm(threadId, parentCommentId) {
-  const slot = document.getElementById(`reply-slot-${parentCommentId}`);
+// slotKey  — unique key used for the slot div ID and input IDs
+// parentCommentId — the MongoDB _id to nest under, or null for top-level
+function showReplyForm(threadId, slotKey, parentCommentId) {
+  const slot = document.getElementById(`reply-slot-${slotKey}`);
   if (!slot) return;
 
   // Toggle: close if already open
@@ -252,27 +286,27 @@ function showReplyForm(threadId, parentCommentId) {
     return;
   }
 
+  const parentArg = parentCommentId ? `'${parentCommentId}'` : 'null';
+
   slot.innerHTML = `
     <div class="inline-reply-form">
-      <input type="text" id="rf-name-${parentCommentId}" placeholder="Name (optional)" />
-      <textarea id="rf-text-${parentCommentId}" rows="2" placeholder="Write a reply&hellip;"></textarea>
+      <input type="text"  id="rf-name-${slotKey}" placeholder="Name (optional)" />
+      <textarea           id="rf-text-${slotKey}" rows="2" placeholder="Write a reply&hellip;"></textarea>
       <div class="icf-actions">
-        <button onclick="submitComment('${threadId}', '${parentCommentId}')">Reply</button>
-        <button class="btn-cancel" onclick="document.getElementById('reply-slot-${parentCommentId}').innerHTML=''">Cancel</button>
-        <span id="rf-status-${parentCommentId}" class="icf-status"></span>
+        <button onclick="submitComment('${threadId}', '${slotKey}', ${parentArg})">Reply</button>
+        <button class="btn-cancel" onclick="document.getElementById('reply-slot-${slotKey}').innerHTML=''">Cancel</button>
+        <span id="rf-status-${slotKey}" class="icf-status"></span>
       </div>
     </div>
   `;
+
+  slot.querySelector('textarea').focus();
 }
 
-async function submitComment(threadId, parentCommentId) {
-  const nameId   = parentCommentId ? `rf-name-${parentCommentId}`   : `icf-name-${threadId}`;
-  const textId   = parentCommentId ? `rf-text-${parentCommentId}`   : `icf-text-${threadId}`;
-  const statusId = parentCommentId ? `rf-status-${parentCommentId}` : `icf-status-${threadId}`;
-
-  const nameEl   = document.getElementById(nameId);
-  const textEl   = document.getElementById(textId);
-  const statusEl = document.getElementById(statusId);
+async function submitComment(threadId, slotKey, parentCommentId) {
+  const nameEl   = document.getElementById(`rf-name-${slotKey}`);
+  const textEl   = document.getElementById(`rf-text-${slotKey}`);
+  const statusEl = document.getElementById(`rf-status-${slotKey}`);
 
   if (!textEl || !textEl.value.trim()) return;
   if (statusEl) statusEl.textContent = 'Posting…';
@@ -284,16 +318,17 @@ async function submitComment(threadId, parentCommentId) {
       body:    JSON.stringify({
         content:         textEl.value.trim(),
         username:        nameEl ? (nameEl.value.trim() || 'Anonymous') : 'Anonymous',
-        parentCommentID: parentCommentId || null,
+        parentCommentID: parentCommentId,
       }),
     });
     if (!res.ok) throw new Error(`${res.status}`);
 
-    // Refresh thread view and update count
+    // Refresh the expanded thread
     const bodyEl = document.getElementById(`thread-body-${threadId}`);
     if (bodyEl) bodyEl.style.display = 'none';
     await toggleThread(threadId);
 
+    // Update comment count badge
     const t = threads.find((th) => th._id === threadId);
     if (t) {
       t.commentCount = (t.commentCount || 0) + 1;

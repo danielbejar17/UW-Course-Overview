@@ -17,82 +17,121 @@
     <a href="course.html" class="nav-link">Course Detail</a>
   </nav>
 
-  <main>
+  <main class="wide">
 
     <a href="index.html" class="back-link">&larr; Back to all courses</a>
 
     <div class="course-layout">
 
-      <!-- Left column: header, reviews, review form -->
-      <div class="course-content">
+      <!-- Primary column: header + tabbed panels -->
+      <div class="course-main">
 
         <!-- Course header — filled in by JS -->
         <div id="courseHeader">
           <p>Loading course&hellip;</p>
         </div>
 
-        <h2>Student Reviews</h2>
-        <p id="reviewStatus"></p>
-        <div id="reviewsList"></div>
+        <!-- Tab bar with quick-action link -->
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tab-reviews" onclick="showTab('reviews')">
+            Reviews <span class="tab-badge" id="badgeReviews"></span>
+          </button>
+          <button class="tab-btn" id="tab-threads" onclick="showTab('threads')">
+            Threads <span class="tab-badge" id="badgeThreads"></span>
+          </button>
+          <a href="#" id="linkAddReview"    class="tab-action-link" onclick="expandBottomForm('reviewsPanel');  return false;">+ Add a Review</a>
+          <a href="#" id="linkStartThread"  class="tab-action-link" style="display:none" onclick="expandBottomForm('threadsPanel'); return false;">+ Start a Thread</a>
+        </div>
 
-        <h2>Add a Review</h2>
-        <form id="reviewForm" onsubmit="submitReview(event)">
-          <p>
-            <label for="rfUsername">Name (optional)</label>
-            <input type="text" id="rfUsername" placeholder="Anonymous" />
-          </p>
-          <p>
-            <label for="rfOverall">Overall Rating (1&ndash;5)</label>
-            <input type="number" id="rfOverall" min="1" max="5" required />
-          </p>
-          <p>
-            <label for="rfDifficulty">Difficulty (1&ndash;5)</label>
-            <input type="number" id="rfDifficulty" min="1" max="5" required />
-          </p>
-          <p>
-            <label for="rfWorkload">Workload (1&ndash;5)</label>
-            <input type="number" id="rfWorkload" min="1" max="5" required />
-          </p>
-          <p>
-            <label for="rfText">Review</label>
-            <textarea id="rfText" rows="4" required></textarea>
-          </p>
-          <p>
-            <button type="submit">Submit Review</button>
-          </p>
-          <p id="reviewFormStatus"></p>
-        </form>
+        <!-- ── Reviews panel ─────────────────────────────────────────── -->
+        <div class="panel-container" id="reviewsPanel">
 
-      </div><!-- /.course-content -->
+          <div class="panel-topbar">
+            <p id="reviewStatus" class="panel-status"></p>
+          </div>
 
-      <!-- Middle column: discussion threads -->
-      <div id="threadsPanel">
+          <div class="panel-scroll">
+            <div id="reviewsList"></div>
+          </div>
 
-        <h2 class="threads-heading">Discussion Threads</h2>
-        <p id="threadStatus"></p>
-        <div id="threadsList"></div>
+          <div class="panel-bottom-form">
+            <div class="form-toggle-bar" onclick="toggleBottomForm('reviewsPanel')">
+              <span>Add a Review</span>
+              <span class="form-toggle-chevron">&#9660;</span>
+            </div>
+            <div class="form-toggle-body" id="reviewFormBody">
+              <form id="reviewForm" onsubmit="submitReview(event)">
+                <p>
+                  <label for="rfUsername">Name (optional)</label>
+                  <input type="text" id="rfUsername" placeholder="Anonymous" />
+                </p>
+                <p>
+                  <label for="rfOverall">Overall Rating (1&ndash;5)</label>
+                  <input type="number" id="rfOverall" min="1" max="5" required />
+                </p>
+                <p>
+                  <label for="rfDifficulty">Difficulty (1&ndash;5)</label>
+                  <input type="number" id="rfDifficulty" min="1" max="5" required />
+                </p>
+                <p>
+                  <label for="rfWorkload">Workload (1&ndash;5)</label>
+                  <input type="number" id="rfWorkload" min="1" max="5" required />
+                </p>
+                <p>
+                  <label for="rfText">Review</label>
+                  <textarea id="rfText" rows="4" required></textarea>
+                </p>
+                <p>
+                  <button type="submit">Submit Review</button>
+                </p>
+                <p id="reviewFormStatus"></p>
+              </form>
+            </div>
+          </div>
 
-        <h2 class="threads-heading">Start a Thread</h2>
-        <form id="threadForm" onsubmit="submitThread(event)">
-          <p>
-            <label for="tfUsername">Name (optional)</label>
-            <input type="text" id="tfUsername" placeholder="Anonymous" />
-          </p>
-          <p>
-            <label for="tfTitle">Thread Title</label>
-            <input type="text" id="tfTitle" required placeholder="What&rsquo;s on your mind?" />
-          </p>
-          <p>
-            <label for="tfBody">Description</label>
-            <textarea id="tfBody" rows="4" required placeholder="Add more detail&hellip;"></textarea>
-          </p>
-          <p>
-            <button type="submit">Post Thread</button>
-          </p>
-          <p id="threadFormStatus"></p>
-        </form>
+        </div><!-- /#reviewsPanel -->
 
-      </div><!-- /#threadsPanel -->
+        <!-- ── Threads panel ──────────────────────────────────────────── -->
+        <div class="panel-container" id="threadsPanel" style="display:none">
+
+          <div class="panel-topbar">
+            <p id="threadStatus" class="panel-status"></p>
+          </div>
+
+          <div class="panel-scroll">
+            <div id="threadsList"></div>
+          </div>
+
+          <div class="panel-bottom-form">
+            <div class="form-toggle-bar" onclick="toggleBottomForm('threadsPanel')">
+              <span>Start a Thread</span>
+              <span class="form-toggle-chevron">&#9660;</span>
+            </div>
+            <div class="form-toggle-body" id="threadFormBody">
+              <form id="threadForm" onsubmit="submitThread(event)">
+                <p>
+                  <label for="tfUsername">Name (optional)</label>
+                  <input type="text" id="tfUsername" placeholder="Anonymous" />
+                </p>
+                <p>
+                  <label for="tfTitle">Thread Title</label>
+                  <input type="text" id="tfTitle" required placeholder="What&rsquo;s on your mind?" />
+                </p>
+                <p>
+                  <label for="tfBody">Description</label>
+                  <textarea id="tfBody" rows="3" required placeholder="Add more detail&hellip;"></textarea>
+                </p>
+                <p>
+                  <button type="submit">Post Thread</button>
+                </p>
+                <p id="threadFormStatus"></p>
+              </form>
+            </div>
+          </div>
+
+        </div><!-- /#threadsPanel -->
+
+      </div><!-- /.course-main -->
 
       <!-- Right column: quick stats — shown by JS -->
       <aside id="courseSidebar" style="display:none">
