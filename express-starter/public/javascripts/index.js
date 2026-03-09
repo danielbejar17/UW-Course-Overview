@@ -64,10 +64,10 @@ function filterCourses() {
 
 // ── Star string helper ────────────────────────────────────────────────────────
 function stars(val) {
-  if (!val) return '☆☆☆☆☆';
+  if (!val) return '<span style="color:#aadb1e">☆☆☆☆☆</span>';
   const full  = Math.round(val);
   const empty = 5 - full;
-  return '★'.repeat(full) + '☆'.repeat(empty);
+  return '<span style="color:#aadb1e">' + '★'.repeat(full) + '☆'.repeat(empty) + '</span>';
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────

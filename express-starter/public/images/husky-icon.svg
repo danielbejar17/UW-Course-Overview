@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <!-- Husky face icon matching the Husky Hero branding -->
+  <g fill="#e93cac">
+    <!-- Left ear -->
+    <path d="M40 90 L60 10 L95 70 Z"/>
+    <!-- Right ear -->
+    <path d="M160 90 L140 10 L105 70 Z"/>
+    <!-- Head shape -->
+    <ellipse cx="100" cy="120" rx="65" ry="70"/>
+    <!-- Chin/jaw -->
+    <path d="M55 150 Q100 210 145 150 Q120 180 100 185 Q80 180 55 150Z"/>
+  </g>
+  <!-- Face markings (lighter pink) -->
+  <g fill="#f5b8d9">
+    <!-- Inner left ear -->
+    <path d="M58 75 L68 28 L90 68 Z"/>
+    <!-- Inner right ear -->
+    <path d="M142 75 L132 28 L110 68 Z"/>
+    <!-- Face mask -->
+    <ellipse cx="100" cy="125" rx="40" ry="45"/>
+  </g>
+  <!-- Glasses frames -->
+  <g fill="none" stroke="#e93cac" stroke-width="5">
+    <circle cx="75" cy="110" r="22"/>
+    <circle cx="125" cy="110" r="22"/>
+    <path d="M97 110 L103 110"/>
+    <path d="M53 105 L40 98"/>
+    <path d="M147 105 L160 98"/>
+  </g>
+  <!-- Eyes -->
+  <g fill="#e93cac">
+    <ellipse cx="75" cy="112" rx="8" ry="9"/>
+    <ellipse cx="125" cy="112" rx="8" ry="9"/>
+  </g>
+  <!-- Eye shine -->
+  <g fill="white">
+    <circle cx="79" cy="108" r="3"/>
+    <circle cx="129" cy="108" r="3"/>
+  </g>
+  <!-- Nose -->
+  <ellipse cx="100" cy="140" rx="8" ry="6" fill="#e93cac"/>
+  <!-- Mouth -->
+  <path d="M92 148 Q100 155 108 148" stroke="#e93cac" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>
