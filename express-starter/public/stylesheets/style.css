@@ -21,8 +21,8 @@
   --shadow-sm:    0 2px 8px rgba(50, 0, 110, 0.07);
   --shadow-md:    0 4px 18px rgba(50, 0, 110, 0.13);
   --shadow-lg:    0 8px 32px rgba(50, 0, 110, 0.18);
-  --radius:       12px;
-  --radius-sm:    8px;
+  --radius:       6px;
+  --radius-sm:    4px;
 }
 
 body {
@@ -204,25 +204,38 @@ main {
 
 #courseGrid ul {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 #courseGrid li {
   background: var(--white);
-  border-radius: var(--radius);
+  border-radius: 0;
   padding: 1.4rem 1.5rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
   border: 1px solid var(--border);
+  border-top: none;
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  transition: border-color 0.18s;
+}
+#courseGrid ul li:first-child {
+  border-top: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+#courseGrid ul li:last-child {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+#courseGrid ul li:only-child {
+  border-radius: var(--radius);
+  border-top: 1px solid var(--border);
 }
 #courseGrid li:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  border-color: var(--purple-mid);
+  z-index: 1;
 }
 
 #courseGrid li h3 {
