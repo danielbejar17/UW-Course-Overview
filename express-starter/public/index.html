@@ -10,16 +10,30 @@
 
   <nav>
     <a href="index.html" class="nav-brand">
-      <img src="images/husky-icon.svg" alt="" class="nav-logo" />
+      <img src="images/husky_hero_icon.png" alt="" class="nav-logo" />
       Husky Hero
     </a>
     <a href="index.html" class="nav-link">Courses</a>
-    <a href="course.html" class="nav-link">Course Detail</a>
+    <a href="about.html" class="nav-link">About</a>
   </nav>
 
   <header class="hero">
-    <h1>Find Your Next Course</h1>
-    <p>Student reviews and honest takes on UW courses &mdash; powered by Husky Hero.</p>
+    <div class="hero-brand">
+      <!-- Drop images/husky_hero_logo.png (full icon + wordmark) to replace this placeholder -->
+      <img src="images/husky_hero_logo.png" alt="Husky Hero"
+           class="hero-logo"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" />
+      <div class="hero-logo-fallback" style="display:none">
+        <img src="images/husky_hero_icon.png" alt="" class="hero-logo-icon"
+             onerror="this.style.display='none'" />
+        <span class="hero-wordmark">Husky Hero</span>
+      </div>
+    </div>
+    <p class="hero-slogan">Build your perfect schedule.</p>
+    <p class="hero-desc">
+      Real reviews from real UW students &mdash; explore courses, weigh the workload,
+      and find classes that fit your goals before you ever click &ldquo;Register.&rdquo;
+    </p>
     <div class="search-wrap">
       <label for="searchInput" class="sr-only">Search courses</label>
       <input
