@@ -4,81 +4,80 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Course Detail &mdash; UW Course Overview</title>
+  <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
 
   <nav>
-    <strong><a href="index.html">UW Course Overview</a></strong>
-    &mdash;
-    <a href="index.html">Courses</a>
-    &bull;
-    <a href="course.html">Course Page</a>
+    <a href="index.html" class="nav-brand">UW Course Overview</a>
+    <a href="index.html" class="nav-link">Courses</a>
+    <a href="course.html" class="nav-link">Course Detail</a>
   </nav>
-
-  <hr>
 
   <main>
 
-    <p><a href="index.html">&larr; Back to all courses</a></p>
+    <a href="index.html" class="back-link">&larr; Back to all courses</a>
 
-    <!-- Course header — filled in by JS -->
-    <div id="courseHeader">
-      <p>Loading course&hellip;</p>
-    </div>
+    <div class="course-layout">
 
-    <!-- Quick stats sidebar — filled in and shown by JS -->
-    <div id="courseSidebar" style="display:none">
-      <h2>Quick Stats</h2>
-      <ul>
-        <li><strong>Department:</strong> <span id="sdDept"></span></li>
-        <li><strong>Number:</strong> <span id="sdNumber"></span></li>
-        <li><strong>Credits:</strong> <span id="sdCredits"></span></li>
-        <li><strong>Avg Difficulty:</strong> <span id="sdDifficulty"></span></li>
-        <li><strong>Avg Workload:</strong> <span id="sdWorkload"></span></li>
-        <li><strong>Avg Overall:</strong> <span id="sdOverall"></span></li>
-      </ul>
-    </div>
+      <!-- Left column: header, reviews, form -->
+      <div class="course-content">
 
-    <h2>Student Reviews</h2>
-    <p id="reviewStatus"></p>
-    <div id="reviewsList"></div>
+        <!-- Course header — filled in by JS -->
+        <div id="courseHeader">
+          <p>Loading course&hellip;</p>
+        </div>
 
-    <h2>Add a Review</h2>
-    <form id="reviewForm" onsubmit="submitReview(event)">
-      <p>
-        <label>Name (optional):
-          <input type="text" id="rfUsername" placeholder="Anonymous" />
-        </label>
-      </p>
-      <p>
-        <label>Overall Rating (1&ndash;5):
-          <input type="number" id="rfOverall" min="1" max="5" required />
-        </label>
-      </p>
-      <p>
-        <label>Difficulty (1&ndash;5):
-          <input type="number" id="rfDifficulty" min="1" max="5" required />
-        </label>
-      </p>
-      <p>
-        <label>Workload (1&ndash;5):
-          <input type="number" id="rfWorkload" min="1" max="5" required />
-        </label>
-      </p>
-      <p>
-        <label>Review:<br>
-          <textarea id="rfText" rows="4" cols="50" required></textarea>
-        </label>
-      </p>
-      <p>
-        <button type="submit">Submit Review</button>
-      </p>
-      <p id="reviewFormStatus"></p>
-    </form>
+        <h2>Student Reviews</h2>
+        <p id="reviewStatus"></p>
+        <div id="reviewsList"></div>
+
+        <h2>Add a Review</h2>
+        <form id="reviewForm" onsubmit="submitReview(event)">
+          <p>
+            <label for="rfUsername">Name (optional)</label>
+            <input type="text" id="rfUsername" placeholder="Anonymous" />
+          </p>
+          <p>
+            <label for="rfOverall">Overall Rating (1&ndash;5)</label>
+            <input type="number" id="rfOverall" min="1" max="5" required />
+          </p>
+          <p>
+            <label for="rfDifficulty">Difficulty (1&ndash;5)</label>
+            <input type="number" id="rfDifficulty" min="1" max="5" required />
+          </p>
+          <p>
+            <label for="rfWorkload">Workload (1&ndash;5)</label>
+            <input type="number" id="rfWorkload" min="1" max="5" required />
+          </p>
+          <p>
+            <label for="rfText">Review</label>
+            <textarea id="rfText" rows="4" required></textarea>
+          </p>
+          <p>
+            <button type="submit">Submit Review</button>
+          </p>
+          <p id="reviewFormStatus"></p>
+        </form>
+
+      </div><!-- /.course-content -->
+
+      <!-- Right column: quick stats — shown by JS -->
+      <aside id="courseSidebar" style="display:none">
+        <h2>Quick Stats</h2>
+        <ul>
+          <li><strong>Department</strong> <span id="sdDept"></span></li>
+          <li><strong>Number</strong>     <span id="sdNumber"></span></li>
+          <li><strong>Credits</strong>    <span id="sdCredits"></span></li>
+          <li><strong>Avg Difficulty</strong> <span id="sdDifficulty"></span></li>
+          <li><strong>Avg Workload</strong>   <span id="sdWorkload"></span></li>
+          <li><strong>Avg Overall</strong>    <span id="sdOverall"></span></li>
+        </ul>
+      </aside>
+
+    </div><!-- /.course-layout -->
 
   </main>
-
-  <hr>
 
   <footer>
     <p>UW Course Overview &mdash; Built by UW Students</p>

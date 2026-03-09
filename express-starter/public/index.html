@@ -4,53 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UW Course Overview</title>
+  <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
 
   <nav>
-    <strong><a href="index.html">UW Course Overview</a></strong>
-    &mdash;
-    <a href="index.html">Courses</a>
-    &bull;
-    <a href="course.html">Course Page</a>
+    <a href="index.html" class="nav-brand">UW Course Overview</a>
+    <a href="index.html" class="nav-link">Courses</a>
+    <a href="course.html" class="nav-link">Course Detail</a>
   </nav>
 
-  <hr>
-
-  <header>
+  <header class="hero">
     <h1>Find Your Next Course</h1>
     <p>Student reviews and honest takes on UW courses &mdash; all in one place.</p>
-    <p>
-      <label for="searchInput">Search:</label>
+    <div class="search-wrap">
+      <label for="searchInput" class="sr-only">Search courses</label>
       <input
         type="text"
         id="searchInput"
-        placeholder="Course name, department, or number&hellip;"
+        placeholder="Search by course name, department, or number&hellip;"
         oninput="filterCourses()"
       />
-    </p>
+    </div>
   </header>
 
   <main>
 
-    <p>
-      <strong>Filter by department:</strong>
-      <button onclick="setDept(this, 'all')">All</button>
+    <div class="dept-filter">
+      <span class="dept-filter-label">Department</span>
+      <button onclick="setDept(this, 'all')" class="active">All</button>
       <button onclick="setDept(this, 'CSE')">CSE</button>
       <button onclick="setDept(this, 'MATH')">MATH</button>
       <button onclick="setDept(this, 'ENGL')">ENGL</button>
       <button onclick="setDept(this, 'STAT')">STAT</button>
       <button onclick="setDept(this, 'INFO')">INFO</button>
       <button onclick="setDept(this, 'PHYS')">PHYS</button>
-    </p>
+    </div>
 
     <p id="statusMsg">Loading courses&hellip;</p>
 
     <div id="courseGrid"></div>
 
   </main>
-
-  <hr>
 
   <footer>
     <p>UW Course Overview &mdash; Built by UW Students</p>

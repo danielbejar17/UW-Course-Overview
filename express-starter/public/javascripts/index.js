@@ -52,6 +52,8 @@ function renderCourses() {
 // ── Department filter ─────────────────────────────────────────────────────────
 function setDept(btn, dept) {
   activeDept = dept;
+  document.querySelectorAll('.dept-filter button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   renderCourses();
 }
 
