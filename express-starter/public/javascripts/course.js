@@ -101,7 +101,6 @@ async function submitReview(event) {
   status.textContent = 'Submitting…';
 
   const body = {
-    username:         document.getElementById('rfUsername').value.trim() || 'Anonymous',
     overallRating:    Number(document.getElementById('rfOverall').value),
     difficultyRating: Number(document.getElementById('rfDifficulty').value),
     workloadRating:   Number(document.getElementById('rfWorkload').value),
@@ -111,11 +110,14 @@ async function submitReview(event) {
   try {
     const res = await fetch(`/api/courses/${courseId}/reviews`, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),          // from auth.js
       body:    JSON.stringify(body),
     });
 
-    if (!res.ok) throw new Error(`${res.status}`);
+    if (res.status === 401) {
+      status.textContent = 'You must be signed in to post a review.';
+      return;
+    }
 
     status.textContent = 'Review submitted!';
     document.getElementById('reviewForm').reset();
