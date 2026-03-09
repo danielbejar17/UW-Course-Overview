@@ -1,73 +1,61 @@
 import mongoose from 'mongoose';
 
-let models = {};
-main().catch(err => console.log(err))
+// ── Schemas ───────────────────────────────────────────────────────────────────
 
-async function main() {
-  console.log("connecting to mongodb")
+const courseSchema = new mongoose.Schema({
+  department:   String,
+  courseNumber: String,
+  title:        String,
+  description:  String,
+  credits:      Number,
+  syllabusLink: String,
+});
 
-  await mongoose.connect('mongodb+srv://dbejar17_db_user:cs0D7z8LZROzMwbb@cluster0.zsyoary.mongodb.net/realmadrid?appName=Cluster0');
+const userSchema = new mongoose.Schema({
+  username:     String,
+  email:        String,
+  passwordHash: String,
+  createdAt:    { type: Date, default: Date.now },
+});
 
-  console.log("successfully connected to mongodb");
+const reviewSchema = new mongoose.Schema({
+  courseID:         { type: String, required: true },
+  userID:           String,
+  difficultyRating: { type: Number, min: 1, max: 5 },
+  workloadRating:   { type: Number, min: 1, max: 5 },
+  overallRating:    { type: Number, min: 1, max: 5 },
+  reviewText:       String,
+  createdAt:        { type: Date, default: Date.now },
+});
 
-  // Create schema
+const threadSchema = new mongoose.Schema({
+  courseID:  String,
+  title:     String,
+  createdBy: String,
+  createdAt: { type: Date, default: Date.now },
+});
 
-  const courseSchema = new mongoose.Schema({
-    courseID: String,
-    department: String,
-    courseNumber: String,
-    title: String,
-    description: String,
-    credits: String,
-    syllabusLink: String
-  })
+const commentSchema = new mongoose.Schema({
+  threadID:  String,
+  userID:    String,
+  content:   String,
+  createdAt: { type: Date, default: Date.now },
+});
 
-  const userSchema = new mongoose.Schema({
-    userID: String,
-    username: String,
-    email: String,
-    passwordHash: String,
-    createdAt: { type: Date, default: Date.now }
-  })
+// ── Models ────────────────────────────────────────────────────────────────────
 
-  const reviewSchema = new mongoose.Schema({
-    reviewID: String,
-    courseID: String,
-    userID: String,
-    difficultyRating: String,
-    workloadRating: String,
-    overallRating: String,
-    reviewText: String,
-    createdAt: { type: Date, default: Date.now }
-  })
+export const Course  = mongoose.model('Course',  courseSchema);
+export const User    = mongoose.model('User',    userSchema);
+export const Review  = mongoose.model('Review',  reviewSchema);
+export const Thread  = mongoose.model('Thread',  threadSchema);
+export const Comment = mongoose.model('Comment', commentSchema);
 
-  const threadSchema = new mongoose.Schema({
-    threadID: String,
-    courseID: String,
-    title: String,
-    createdBy: String,
-    createdAt: { type: Date, default: Date.now }
-  })
+// ── Connection ────────────────────────────────────────────────────────────────
 
-  const commentSchema = new mongoose.Schema({
-    commentID: String,
-    threadID: String,
-    userID: String,
-    content: String,
-    createdAt: { type: Date, default: Date.now }
-  })
-
-  models.Course = mongoose.model('Course', courseSchema);
-  models.User = mongoose.model('User', userSchema);
-  models.Review = mongoose.model('Review', reviewSchema);
-  models.Thread = mongoose.model('Thread', threadSchema);
-  models.Comment = mongoose.model('Comment', commentSchema);
-  console.log("mongoose models created")
+export async function connectDB() {
+  const uri = process.env.MONGODB_URI ||
+    'mongodb+srv://dbejar17_db_user:cs0D7z8LZROzMwbb@cluster0.zsyoary.mongodb.net/realmadrid?appName=Cluster0';
+  console.log('Connecting to MongoDB…');
+  await mongoose.connect(uri);
+  console.log('MongoDB connected.');
 }
-
-/* const Cat = mongoose.model('Cat', { name: String });
-
-const kitty = new Cat({ name: 'Zildjian' });
-kitty.save().then(() => console.log('meow')); */
-
-export default models;

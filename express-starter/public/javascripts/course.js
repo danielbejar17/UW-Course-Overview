@@ -74,7 +74,7 @@ async function loadReviews() {
     reviewsList.innerHTML = '<ul>' + reviews.map((r) => `
       <li>
         <p>
-          <strong>@${r.userID?.username || 'Anonymous'}</strong> &mdash; ${fmt(r.createdAt)}
+          <strong>@${r.userID || 'Anonymous'}</strong> &mdash; ${fmt(r.createdAt)}
         </p>
         <p>
           Overall: ${stars(r.overallRating)} ${r.overallRating}/5 &nbsp;|&nbsp;
@@ -87,6 +87,41 @@ async function loadReviews() {
 
   } catch (err) {
     reviewStatus.textContent = `Could not load reviews. (${err.message})`;
+    console.error(err);
+  }
+}
+
+// ── Submit review ─────────────────────────────────────────────────────────────
+async function submitReview(event) {
+  event.preventDefault();
+
+  if (!courseId) return;
+
+  const status = document.getElementById('reviewFormStatus');
+  status.textContent = 'Submitting…';
+
+  const body = {
+    username:         document.getElementById('rfUsername').value.trim() || 'Anonymous',
+    overallRating:    Number(document.getElementById('rfOverall').value),
+    difficultyRating: Number(document.getElementById('rfDifficulty').value),
+    workloadRating:   Number(document.getElementById('rfWorkload').value),
+    reviewText:       document.getElementById('rfText').value.trim(),
+  };
+
+  try {
+    const res = await fetch(`/api/courses/${courseId}/reviews`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error(`${res.status}`);
+
+    status.textContent = 'Review submitted!';
+    document.getElementById('reviewForm').reset();
+    await loadReviews();
+  } catch (err) {
+    status.textContent = `Failed to submit review. (${err.message})`;
     console.error(err);
   }
 }
