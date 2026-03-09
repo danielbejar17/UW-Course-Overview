@@ -7,20 +7,22 @@
 }
 
 :root {
-  --purple-dark:  #32006e;
-  --purple-mid:   #4b2e83;
-  --purple-light: #7b5ea7;
-  --purple-pale:  #ede8f5;
-  --purple-xpale: #f4f0fb;
-  --text-dark:    #1a1a2e;
-  --text-mid:     #4a4566;
-  --text-light:   #8a8aaa;
+  --pink:         #e93cac;
+  --pink-light:   #f472c4;
+  --pink-pale:    #fce4f1;
+  --pink-xpale:   #fdf2f8;
+  --green:        #aadb1e;
+  --green-dark:   #8fbf0a;
+  --green-pale:   #f0f9d6;
+  --text-dark:    #111111;
+  --text-mid:     #444444;
+  --text-light:   #888888;
   --white:        #ffffff;
-  --bg:           #f5f3fb;
-  --border:       #ddd6ef;
-  --shadow-sm:    0 2px 8px rgba(50, 0, 110, 0.07);
-  --shadow-md:    0 4px 18px rgba(50, 0, 110, 0.13);
-  --shadow-lg:    0 8px 32px rgba(50, 0, 110, 0.18);
+  --bg:           #ffffff;
+  --border:       #e5e5e5;
+  --shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md:    0 4px 18px rgba(0, 0, 0, 0.10);
+  --shadow-lg:    0 8px 32px rgba(0, 0, 0, 0.14);
   --radius:       6px;
   --radius-sm:    4px;
 }
@@ -38,7 +40,7 @@ body {
 hr { display: none; }
 
 a {
-  color: var(--purple-mid);
+  color: var(--pink);
   text-decoration: none;
 }
 a:hover { text-decoration: underline; }
@@ -47,7 +49,7 @@ a:hover { text-decoration: underline; }
 /* ── Navigation ─────────────────────────────────────────────────────────── */
 
 nav {
-  background: var(--purple-dark);
+  background: var(--white);
   padding: 0 2rem;
   height: 60px;
   display: flex;
@@ -56,21 +58,30 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 14px rgba(50, 0, 110, 0.45);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 2px solid var(--pink);
 }
 
 .nav-brand {
-  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: #fff !important;
+  color: var(--pink) !important;
   letter-spacing: 0.01em;
   text-decoration: none;
   margin-right: auto;
 }
 .nav-brand:hover { opacity: 0.88; text-decoration: none; }
 
+.nav-logo {
+  height: 34px;
+  width: auto;
+}
+
 .nav-link {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--text-mid);
   font-size: 0.88rem;
   font-weight: 500;
   text-decoration: none;
@@ -79,8 +90,8 @@ nav {
   transition: background 0.18s, color 0.18s;
 }
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.13);
-  color: #fff;
+  background: var(--pink-xpale);
+  color: var(--pink);
   text-decoration: none;
 }
 
@@ -101,20 +112,25 @@ nav {
 /* ── Hero (index.html header) ───────────────────────────────────────────── */
 
 .hero {
-  background: linear-gradient(140deg, var(--purple-dark) 0%, var(--purple-mid) 60%, #6b4fa0 100%);
-  color: #fff;
+  background: var(--white);
+  color: var(--text-dark);
   padding: 4rem 2rem 3.5rem;
   text-align: center;
+  border-bottom: 1px solid var(--border);
 }
 .hero h1 {
   font-size: 2.5rem;
   font-weight: 800;
   letter-spacing: -0.025em;
   margin-bottom: 0.55rem;
+  color: var(--text-dark);
+}
+.hero h1 span {
+  color: var(--pink);
 }
 .hero > p {
   font-size: 1.05rem;
-  opacity: 0.8;
+  color: var(--text-mid);
   max-width: 480px;
   margin: 0 auto;
 }
@@ -123,23 +139,41 @@ nav {
   margin-top: 1.75rem;
   display: flex;
   justify-content: center;
+  gap: 0.5rem;
 }
 #searchInput {
-  width: min(100%, 500px);
+  width: min(100%, 440px);
   padding: 0.85rem 1.4rem;
-  border: none;
+  border: 2px solid var(--border);
   border-radius: 999px;
   font-size: 0.98rem;
   font-family: inherit;
   outline: none;
   color: var(--text-dark);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
-  transition: box-shadow 0.2s;
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 #searchInput:focus {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(233, 60, 172, 0.12);
 }
 #searchInput::placeholder { color: #aaa; }
+
+.search-btn {
+  padding: 0.85rem 1.5rem;
+  background: var(--green);
+  color: var(--text-dark);
+  border: none;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.search-btn:hover {
+  background: var(--green-dark);
+}
 
 
 /* ── Main content wrapper ───────────────────────────────────────────────── */
@@ -183,13 +217,13 @@ main {
   transition: border-color 0.17s, background 0.17s, color 0.17s;
 }
 .dept-filter button:hover {
-  border-color: var(--purple-mid);
-  color: var(--purple-mid);
-  background: var(--purple-xpale);
+  border-color: var(--pink);
+  color: var(--pink);
+  background: var(--pink-xpale);
 }
 .dept-filter button.active {
-  background: var(--purple-mid);
-  border-color: var(--purple-mid);
+  background: var(--pink);
+  border-color: var(--pink);
   color: #fff;
 }
 
@@ -234,7 +268,7 @@ main {
   border-top: 1px solid var(--border);
 }
 #courseGrid li:hover {
-  border-color: var(--purple-mid);
+  border-color: var(--pink);
   z-index: 1;
 }
 
@@ -244,11 +278,11 @@ main {
   line-height: 1.4;
 }
 #courseGrid li h3 a {
-  color: var(--purple-dark);
+  color: var(--text-dark);
   text-decoration: none;
 }
 #courseGrid li h3 a:hover {
-  color: var(--purple-mid);
+  color: var(--pink);
   text-decoration: underline;
 }
 
@@ -258,7 +292,7 @@ main {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--purple-light);
+  color: var(--pink);
 }
 
 /* description & rating — remaining <p> */
@@ -268,6 +302,11 @@ main {
   line-height: 1.5;
 }
 
+/* Stars in course list get green color */
+#courseGrid li p:last-child {
+  color: var(--text-mid);
+}
+
 
 /* ── Course detail page layout ──────────────────────────────────────────── */
 
@@ -275,14 +314,14 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: var(--purple-mid);
+  color: var(--pink);
   font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
   margin-bottom: 1.5rem;
   transition: color 0.15s;
 }
-.back-link:hover { color: var(--purple-dark); text-decoration: none; }
+.back-link:hover { color: var(--pink-light); text-decoration: none; }
 
 .course-layout {
   display: grid;
@@ -313,13 +352,13 @@ main {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--purple-light);
+  color: var(--pink);
   margin-bottom: 0.45rem;
 }
 #courseHeader h1 {
   font-size: 1.65rem;
   font-weight: 800;
-  color: var(--purple-dark);
+  color: var(--text-dark);
   line-height: 1.3;
   letter-spacing: -0.015em;
   margin-bottom: 0.7rem;
@@ -340,7 +379,7 @@ main {
   color: var(--text-mid);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--purple-pale);
+  border-bottom: 2px solid var(--pink-pale);
 }
 
 
@@ -374,14 +413,14 @@ main {
   margin-bottom: 0.4rem;
 }
 #reviewsList li p:first-child strong {
-  color: var(--purple-dark);
+  color: var(--text-dark);
   font-weight: 700;
   font-size: 0.88rem;
 }
 /* ratings line */
 #reviewsList li p:nth-child(2) {
   font-size: 0.85rem;
-  color: var(--purple-mid);
+  color: var(--green-dark);
   font-weight: 600;
   margin-bottom: 0.55rem;
 }
@@ -432,7 +471,7 @@ main {
   font-size: 0.9rem;
   font-family: inherit;
   color: var(--text-dark);
-  background: var(--bg);
+  background: var(--white);
   transition: border-color 0.18s, box-shadow 0.18s;
 }
 #reviewForm input[type="number"] { width: 90px; }
@@ -440,8 +479,8 @@ main {
 #reviewForm input:focus,
 #reviewForm textarea:focus {
   outline: none;
-  border-color: var(--purple-mid);
-  box-shadow: 0 0 0 3px rgba(75, 46, 131, 0.12);
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(233, 60, 172, 0.12);
   background: var(--white);
 }
 #reviewForm textarea {
@@ -450,7 +489,7 @@ main {
 }
 
 #reviewForm button[type="submit"] {
-  background: var(--purple-mid);
+  background: var(--pink);
   color: #fff;
   border: none;
   padding: 0.7rem 2rem;
@@ -459,17 +498,17 @@ main {
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(75, 46, 131, 0.3);
+  box-shadow: 0 2px 10px rgba(233, 60, 172, 0.25);
   transition: background 0.18s, box-shadow 0.18s;
 }
 #reviewForm button[type="submit"]:hover {
-  background: var(--purple-dark);
-  box-shadow: 0 4px 16px rgba(50, 0, 110, 0.38);
+  background: var(--pink-light);
+  box-shadow: 0 4px 16px rgba(233, 60, 172, 0.35);
 }
 
 #reviewFormStatus {
   font-size: 0.84rem;
-  color: var(--purple-light);
+  color: var(--green-dark);
   margin-top: 0.5rem;
   margin-bottom: 0 !important;
   min-height: 1.2em;
@@ -492,10 +531,10 @@ main {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  color: var(--purple-light);
+  color: var(--pink);
   margin-bottom: 0.9rem;
   padding-bottom: 0.55rem;
-  border-bottom: 2px solid var(--purple-pale);
+  border-bottom: 2px solid var(--pink-pale);
 }
 #courseSidebar ul { list-style: none; }
 #courseSidebar li {
@@ -503,7 +542,7 @@ main {
   justify-content: space-between;
   align-items: baseline;
   padding: 0.55rem 0;
-  border-bottom: 1px solid var(--purple-xpale);
+  border-bottom: 1px solid var(--border);
   font-size: 0.875rem;
 }
 #courseSidebar li:last-child { border-bottom: none; }
@@ -517,10 +556,17 @@ main {
 }
 
 
+/* ── Star colors ────────────────────────────────────────────────────────── */
+
+.star-green {
+  color: var(--green);
+}
+
+
 /* ── Footer ─────────────────────────────────────────────────────────────── */
 
 footer {
-  background: var(--purple-dark);
+  background: var(--text-dark);
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   padding: 1.4rem;

@@ -8,7 +8,7 @@ const courseId = params.get('id');
 function stars(val) {
   if (!val) return '&mdash;';
   const full = Math.round(val);
-  return '★'.repeat(full) + '☆'.repeat(5 - full);
+  return '<span style="color:#aadb1e">' + '★'.repeat(full) + '☆'.repeat(5 - full) + '</span>';
 }
 
 function fmt(d) {
@@ -28,7 +28,7 @@ async function loadCourse() {
     if (!res.ok) throw new Error(`${res.status}`);
     const course = await res.json();
 
-    document.title = `${course.department} ${course.courseNumber} \u2014 UW Course Overview`;
+    document.title = `${course.department} ${course.courseNumber} \u2014 Husky Hero`;
 
     document.getElementById('courseHeader').innerHTML = `
       <p>${course.department} &mdash; ${course.credits} credit${course.credits === 1 ? '' : 's'}</p>
