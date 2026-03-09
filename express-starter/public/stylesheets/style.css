@@ -325,11 +325,15 @@ main {
 
 .course-layout {
   display: grid;
-  grid-template-columns: 1fr 270px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 240px;
   gap: 1.75rem;
   align-items: start;
 }
-@media (max-width: 780px) {
+@media (max-width: 960px) {
+  .course-layout { grid-template-columns: 1fr 1fr; }
+  #courseSidebar { grid-column: 1 / -1; position: static; }
+}
+@media (max-width: 640px) {
   .course-layout { grid-template-columns: 1fr; }
   .hero h1 { font-size: 1.8rem; }
 }
@@ -560,6 +564,287 @@ main {
 
 .star-green {
   color: var(--green);
+}
+
+
+/* ── Threads panel ───────────────────────────────────────────────────────── */
+
+#threadsPanel { min-width: 0; }
+
+.threads-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-mid);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--pink-pale);
+}
+
+#threadStatus {
+  color: var(--text-light);
+  font-size: 0.88rem;
+  margin-bottom: 0.75rem;
+}
+
+.threads-empty {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+#threadsList { margin-bottom: 2rem; }
+
+.thread-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.65rem;
+  overflow: hidden;
+}
+
+.thread-summary {
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  background: var(--white);
+  transition: background 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.thread-summary:hover { background: var(--pink-xpale); }
+
+.thread-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+.thread-meta {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.thread-body {
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  background: var(--bg);
+}
+
+.thread-op {
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+.thread-op-text {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  line-height: 1.55;
+}
+
+.thread-loading,
+.thread-error {
+  color: var(--text-light);
+  font-size: 0.88rem;
+}
+
+
+/* ── Comments (nested, Reddit-style) ────────────────────────────────────── */
+
+.comments-section { margin-bottom: 1rem; }
+
+.comment {
+  margin-left: calc(var(--depth, 0) * 1.1rem);
+  border-left: 2px solid var(--border);
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.35rem;
+}
+.comment:hover { border-left-color: var(--pink-light); }
+
+.comment-meta {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-bottom: 0.2rem;
+}
+.comment-meta strong {
+  color: var(--text-dark);
+  font-size: 0.82rem;
+}
+
+.comment-text {
+  font-size: 0.88rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+  margin-bottom: 0.3rem;
+}
+
+.reply-btn {
+  background: none;
+  border: none;
+  color: var(--pink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+.reply-btn:hover { text-decoration: underline; }
+
+.reply-form-slot { margin-top: 0.35rem; }
+
+
+/* ── Inline comment / reply forms ───────────────────────────────────────── */
+
+.inline-comment-form,
+.inline-reply-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inline-comment-form h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+}
+
+.inline-comment-form input,
+.inline-comment-form textarea,
+.inline-reply-form input,
+.inline-reply-form textarea {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: var(--text-dark);
+  background: var(--white);
+  transition: border-color 0.18s, box-shadow 0.18s;
+  resize: vertical;
+}
+.inline-comment-form input:focus,
+.inline-comment-form textarea:focus,
+.inline-reply-form input:focus,
+.inline-reply-form textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(233, 60, 172, 0.12);
+}
+
+.icf-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.icf-actions button {
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.icf-actions button:hover { background: var(--pink-light); }
+
+.icf-actions .btn-cancel {
+  background: var(--white);
+  color: var(--text-mid);
+  border: 1.5px solid var(--border);
+}
+.icf-actions .btn-cancel:hover { background: #f5f5f5; color: var(--text-dark); }
+
+.icf-status {
+  font-size: 0.8rem;
+  color: var(--green-dark);
+}
+
+
+/* ── Thread submission form ──────────────────────────────────────────────── */
+
+#threadForm {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+#threadForm p { margin: 0; }
+
+#threadForm label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+  margin-bottom: 0.4rem;
+}
+
+#threadForm input[type="text"],
+#threadForm textarea {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text-dark);
+  background: var(--white);
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+#threadForm input:focus,
+#threadForm textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(233, 60, 172, 0.12);
+}
+#threadForm textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+#threadForm button[type="submit"] {
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.75rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(233, 60, 172, 0.25);
+  transition: background 0.18s, box-shadow 0.18s;
+  align-self: flex-start;
+}
+#threadForm button[type="submit"]:hover {
+  background: var(--pink-light);
+  box-shadow: 0 4px 16px rgba(233, 60, 172, 0.35);
+}
+
+#threadFormStatus {
+  font-size: 0.84rem;
+  color: var(--green-dark);
+  margin-bottom: 0 !important;
+  min-height: 1.2em;
 }
 
 

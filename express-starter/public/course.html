@@ -23,7 +23,7 @@
 
     <div class="course-layout">
 
-      <!-- Left column: header, reviews, form -->
+      <!-- Left column: header, reviews, review form -->
       <div class="course-content">
 
         <!-- Course header — filled in by JS -->
@@ -64,6 +64,35 @@
         </form>
 
       </div><!-- /.course-content -->
+
+      <!-- Middle column: discussion threads -->
+      <div id="threadsPanel">
+
+        <h2 class="threads-heading">Discussion Threads</h2>
+        <p id="threadStatus"></p>
+        <div id="threadsList"></div>
+
+        <h2 class="threads-heading">Start a Thread</h2>
+        <form id="threadForm" onsubmit="submitThread(event)">
+          <p>
+            <label for="tfUsername">Name (optional)</label>
+            <input type="text" id="tfUsername" placeholder="Anonymous" />
+          </p>
+          <p>
+            <label for="tfTitle">Thread Title</label>
+            <input type="text" id="tfTitle" required placeholder="What&rsquo;s on your mind?" />
+          </p>
+          <p>
+            <label for="tfBody">Description</label>
+            <textarea id="tfBody" rows="4" required placeholder="Add more detail&hellip;"></textarea>
+          </p>
+          <p>
+            <button type="submit">Post Thread</button>
+          </p>
+          <p id="threadFormStatus"></p>
+        </form>
+
+      </div><!-- /#threadsPanel -->
 
       <!-- Right column: quick stats — shown by JS -->
       <aside id="courseSidebar" style="display:none">

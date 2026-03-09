@@ -31,15 +31,17 @@ const reviewSchema = new mongoose.Schema({
 const threadSchema = new mongoose.Schema({
   courseID:  String,
   title:     String,
+  body:      String,
   createdBy: String,
   createdAt: { type: Date, default: Date.now },
 });
 
 const commentSchema = new mongoose.Schema({
-  threadID:  String,
-  userID:    String,
-  content:   String,
-  createdAt: { type: Date, default: Date.now },
+  threadID:        String,
+  userID:          String,
+  content:         String,
+  parentCommentID: { type: String, default: null },
+  createdAt:       { type: Date, default: Date.now },
 });
 
 // ── Models ────────────────────────────────────────────────────────────────────
