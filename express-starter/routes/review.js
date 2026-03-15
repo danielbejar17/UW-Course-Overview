@@ -1,5 +1,6 @@
 import express from 'express';
 import { Review } from '../models.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.get('/courses/:id/reviews', async (req, res) => {
 });
 
 // POST /api/courses/:id/reviews
-router.post('/courses/:id/reviews', async (req, res) => {
+router.post('/courses/:id/reviews', requireAuth, async (req, res) => {
   try {
     const { username, difficultyRating, workloadRating, overallRating, reviewText } = req.body;
 

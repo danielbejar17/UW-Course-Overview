@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign In — UW Course Overview</title>
+  <link rel="stylesheet" href="stylesheets/style.css" />
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="index.html">UW Course Overview</a>
+    <a class="nav-link" href="index.html">Browse</a>
+    <a id="navLogin" href="login.html" class="nav-link">Sign In</a>
+    <span id="navUser" class="nav-link"></span>
+    <a id="navLogout" href="#" class="nav-link" style="display:none" onclick="clearAuth();location.href='index.html'">Sign Out</a>
+  </nav>
+
+  <main style="max-width:420px; padding-top:3rem;">
+    <div id="authBox" style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow-md);">
+      <h1 style="font-size:1.4rem;margin-bottom:1.5rem;color:var(--purple-dark);" id="formTitle">Sign In</h1>
+
+      <!-- Login form -->
+      <div id="loginForm">
+        <p><label>Email<input type="email" id="loginEmail" placeholder="you@uw.edu" /></label></p>
+        <p><label>Password<input type="password" id="loginPassword" /></label></p>
+        <p><button type="button" onclick="doLogin()" style="width:100%">Sign In</button></p>
+        <p style="text-align:center;font-size:.85rem;">No account? <a href="#" onclick="showRegister()">Register</a></p>
+      </div>
+
+      <!-- Register form -->
+      <div id="registerForm" style="display:none">
+        <p><label>Username<input type="text" id="regUsername" /></label></p>
+        <p><label>Email<input type="email" id="regEmail" placeholder="you@uw.edu" /></label></p>
+        <p><label>Password<input type="password" id="regPassword" /></label></p>
+        <p><button type="button" onclick="doRegister()" style="width:100%">Create Account</button></p>
+        <p style="text-align:center;font-size:.85rem;">Have an account? <a href="#" onclick="showLogin()">Sign In</a></p>
+      </div>
+
+      <p id="authStatus" style="color:var(--purple-light);font-size:.85rem;margin-top:.5rem;min-height:1.2em;"></p>
+    </div>
+  </main>
+
+  <script src="javascripts/auth.js"></script>
+</body>
+</html>

@@ -14,7 +14,10 @@
       Husky Hero
     </a>
     <a href="index.html" class="nav-link">Courses</a>
-    <a href="about.html" class="nav-link">About</a>
+    <a href="course.html" class="nav-link">Course Detail</a>
+    <a id="navLogin" href="login.html" class="nav-link">Sign In</a>
+    <span id="navUser" class="nav-link"></span>
+    <a id="navLogout" href="#" class="nav-link" style="display:none" onclick="clearAuth();location.href='index.html'">Sign Out</a>
   </nav>
 
   <header class="hero">
@@ -68,6 +71,7 @@
     <p>Husky Hero &mdash; Built by UW Students</p>
   </footer>
 
+  <script src="javascripts/auth.js"></script>
   <script src="javascripts/index.js"></script>
 </body>
 </html>
