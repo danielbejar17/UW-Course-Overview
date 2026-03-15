@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>Sign In — UW Course Overview</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="stylesheets/style.css" />
 </head>
 <body>
   <nav>
     <a class="nav-brand" href="index.html">UW Course Overview</a>
     <a class="nav-link" href="index.html">Browse</a>
+    <a id="navLogin" href="login.html" class="nav-link">Sign In</a>
+    <span id="navUser" class="nav-link"></span>
+    <a id="navLogout" href="#" class="nav-link" style="display:none" onclick="clearAuth();location.href='index.html'">Sign Out</a>
   </nav>
 
   <main style="max-width:420px; padding-top:3rem;">
