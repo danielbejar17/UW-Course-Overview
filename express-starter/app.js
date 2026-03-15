@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { connectDB } from './models.js';
 import courseRoutes from './routes/courses.js';
 import reviewRoutes from './routes/review.js';
+
 import authRoutes from './routes/auth.js';
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/courses', courseRoutes);
 app.use('/api', reviewRoutes);
 app.use('/api/auth', authRoutes);
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
