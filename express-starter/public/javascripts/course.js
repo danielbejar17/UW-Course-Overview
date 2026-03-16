@@ -160,7 +160,7 @@ async function submitReview(event) {
   try {
     const res = await fetch(`/api/courses/${courseId}/reviews`, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },          // from auth.js
+      headers: authHeaders(),          // from auth.js
       body:    JSON.stringify(body),
     });
 
