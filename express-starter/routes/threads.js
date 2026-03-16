@@ -1,7 +1,7 @@
 import express from 'express';
 import {Thread, Comment } from '../models.js';
 
-const router = express.router();
+const router = express.Router();
 
 // Endpoints -
 // GET api/courses/:id/threads
