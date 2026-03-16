@@ -61,6 +61,16 @@
       <button onclick="setDept(this, 'PHYS')">PHYS</button>
     </div>
 
+    <div class="dept-filter">
+      <span class="dept-filter-label">Min Rating</span>
+      <button onclick="setMinRating(this, 0)" class="rating-btn active">All</button>
+      <button onclick="setMinRating(this, 1)" class="rating-btn">1★+</button>
+      <button onclick="setMinRating(this, 2)" class="rating-btn">2★+</button>
+      <button onclick="setMinRating(this, 3)" class="rating-btn">3★+</button>
+      <button onclick="setMinRating(this, 4)" class="rating-btn">4★+</button>
+      <button onclick="setMinRating(this, 5)" class="rating-btn">5★</button>
+    </div>
+
     <p id="statusMsg">Loading courses&hellip;</p>
 
     <div id="courseGrid"></div>

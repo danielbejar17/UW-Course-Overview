@@ -5,6 +5,7 @@ const API = '/api/courses';
 
 let allCourses = [];
 let activeDept = 'all';
+let minRating = 0;
 
 // ── Fetch courses from the backend ────────────────────────────────────────────
 async function loadCourses() {
@@ -31,7 +32,8 @@ function renderCourses() {
     const matchDept   = activeDept === 'all' || c.department === activeDept;
     const matchSearch = !query ||
       `${c.department} ${c.courseNumber} ${c.title}`.toLowerCase().includes(query);
-    return matchDept && matchSearch;
+    const matchRating = minRating === 0 || (c.avgOverall && c.avgOverall >= minRating);
+    return matchDept && matchSearch && matchRating;
   });
 
   if (filtered.length === 0) {
@@ -52,7 +54,15 @@ function renderCourses() {
 // ── Department filter ─────────────────────────────────────────────────────────
 function setDept(btn, dept) {
   activeDept = dept;
-  document.querySelectorAll('.dept-filter button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.dept-filter button:not(.rating-btn)').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCourses();
+}
+
+// ── Rating filter ─────────────────────────────────────────────────────────────
+function setMinRating(btn, rating) {
+  minRating = rating;
+  document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderCourses();
 }
