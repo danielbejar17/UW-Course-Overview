@@ -4,6 +4,12 @@
 const params   = new URLSearchParams(window.location.search);
 const courseId = params.get('id');
 
+function authHeaders() {
+  const token = localStorage.getItem('token');
+  return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+}
+
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function stars(val) {
@@ -160,6 +166,7 @@ async function submitReview(event) {
   try {
     const res = await fetch(`/api/courses/${courseId}/reviews`, {
       method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
       headers: authHeaders(),          // from auth.js
       body:    JSON.stringify(body),
     });
@@ -317,7 +324,7 @@ async function submitComment(threadId, slotKey, parentCommentId) {
   try {
     const res = await fetch(`/api/threads/${threadId}/comments`, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body:    JSON.stringify({
         content:         textEl.value.trim(),
         username:        nameEl ? (nameEl.value.trim() || 'Anonymous') : 'Anonymous',
@@ -360,7 +367,7 @@ async function submitThread(event) {
   try {
     const res = await fetch(`/api/courses/${courseId}/threads`, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body:    JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`${res.status}`);
